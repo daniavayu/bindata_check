@@ -1,0 +1,13 @@
+[project]
+name = "bottom-censoring"
+version = "0.1.0"
+description = "Replication and diagnostics for 1000-bin welfare distributions and top-tail adjustments"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ipykernel>=7.3.0",
+    "matplotlib>=3.11.0",
+    "numpy>=2.5.1",
+    "pandas>=3.0.3",
+    "pyreadstat>=1.3.5",
+]
