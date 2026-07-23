@@ -21,6 +21,13 @@ wheels/
 interpolation_excercise/
 work/
 
+# Keep only notebook artifacts under work/EDA tracked
+!work/
+work/*
+!work/EDA/
+work/EDA/*
+!work/EDA/*.ipynb
+
 # Large binary data formats
 *.dta
 *.fst
