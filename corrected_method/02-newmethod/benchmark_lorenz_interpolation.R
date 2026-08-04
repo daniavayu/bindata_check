@@ -43,16 +43,15 @@ interp_findInterval <- function() {
   cum_inc[idx] + frac * (cum_inc[idx + 1L] - cum_inc[idx])
 }
 
-# 3. stats::splinefun with method = "linear" (builds an interpolating
-#    function once, then evaluates it)
-interp_splinefun <- function() {
-  splinefun(x = p_cum, y = cum_inc, method = "linear")(p_bounds)
+# 3. stats::approxfun (linear approximation function, built once and evaluated)
+interp_approxfun <- function() {
+  approxfun(x = p_cum, y = cum_inc, method = "linear")(p_bounds)
 }
 
 # --- Sanity check: all three must give (numerically) the same bins -----
 r1 <- interp_approx()
 r2 <- interp_findInterval()
-r3 <- interp_splinefun()
+r3 <- interp_approxfun()
 stopifnot(
   isTRUE(all.equal(r1, r2)),
   isTRUE(all.equal(r1, r3))
@@ -68,8 +67,8 @@ bench <- microbenchmark::microbenchmark(
   findInterval = {
     interp_findInterval()
   },
-  splinefun = {
-    interp_splinefun()
+  approxfun = {
+    interp_approxfun()
   }
 )
 
