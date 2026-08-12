@@ -64,7 +64,7 @@ generalized Lorenz curve:
 2. `p_cum` — cumulative population share: `cumsum(weight) / xpop`.
 3. `cum_inc` — cumulative **total** welfare (generalized Lorenz curve):
    `cumsum(weight * welfare)`.
-4. **Linear interpolation** — linearly interpolates the exact cumulative welfare at each of the 20,000 cutpoints. Linear interpolation **splits** observations (households) that straddle two bins, the same way `lorenz_table()`/`new_bins` does in the original pipeline. (This step can be done either via base R's `approx()` or via an optimized `findInterval()` variant that is ~2× faster with identical results — see [Section 8](#8-performance-optimization-findinterval-vs-approx).)
+4. **Linear interpolation** — linearly interpolates the exact cumulative welfare at each of the 20,000 cutpoints. Linear interpolation **splits** observations (households) that straddle two bins, the same way `lorenz_table()`/`new_bins` does in the original pipeline. (This step can be done either via base R's `approx()` or via an optimized `findInterval()` variant with identical results and better computational efficiency — see [Section 10](#10-performance-optimization-findinterval-vs-approx).)
 5. `bin_inc <- diff(interpolated_inc)` — total welfare inside each bin.
 6. `bin_welfare <- bin_inc / (xpop / nobs)` — the bin's mean = its total
    welfare / its population.
@@ -131,13 +131,13 @@ three scripts (1997, 2004, BEL 2000).
 
 **Performance note:** The code uses `fcumsum()` (from the `fastverse` package)
 instead of base R's `cumsum()`. This is a simple optimization that performs
-cumulative sums faster on large vectors (~2-3× speedup on typical microdata).
+cumulative sums more efficiently on large vectors.
 All three scripts (`build_20k_bins_1997.R`, `build_20k_bins_2004.R`,
 `build_20k_bins_bel_2000.R`) use `fcumsum()` for this reason.
 
-A ~2× faster variant of the interpolation step (using `findInterval()`
+An alternative interpolation variant (using `findInterval()`
 instead of `approx()`, with identical results) is documented in
-[Section 8](#8-performance-optimization-findinterval-vs-approx).
+[Section 10](#10-performance-optimization-findinterval-vs-approx).
 
 ## 3. Worked example: why the old method fails and the new one succeeds
 
@@ -321,7 +321,7 @@ flowchart TD
 | [`build_1997_reportingyear.R`](../01-processing/build_1997_reportingyear.R) | Processes only the 1997 survey (reporting year 1997, no blending). Generates `mwi_1997_reportingyear_processed.dta`. |
 | [`build_2004_reportingyear.R`](../01-processing/build_2004_reportingyear.R) | Combines (pools) the 1997 + 2004 surveys for reporting year 2004. Generates `mwi_2004_reportingyear_processed.dta`. |
 | [`build_20k_bins_1997.R`](../02-newmethod/build_20k_bins_1997.R) | Lorenz-curve-based binning method for reporting year 1997 (uses `approx()`). |
-| [`build_20k_bins_1997_findInterval.R`](../02-newmethod/build_20k_bins_1997_findInterval.R) | **Optimized version**: Lorenz-curve-based binning for 1997 using `findInterval()` (~2× faster, identical results). |
+| [`build_20k_bins_1997_findInterval.R`](../02-newmethod/build_20k_bins_1997_findInterval.R) | **Optimized version**: Lorenz-curve-based binning for 1997 using `findInterval()` (more efficient, identical results). |
 | [`build_20k_bins_2004.R`](../02-newmethod/build_20k_bins_2004.R) | Lorenz-curve-based binning method for reporting year 2004 (uses `approx()`). |
 | [`build_20k_bins_bel_2000.R`](../02-newmethod/build_20k_bins_bel_2000.R) | Lorenz-curve-based binning for BEL 2000 (uses `approx()`). |
 | `01-processing/raw/MWI_1997.dta`, `MWI_2004.dta` | Raw input microdata. |
@@ -403,7 +403,7 @@ flowchart TD
 
 ## 10. Performance optimization: `findInterval()` vs. `approx()`
 
-The Lorenz-curve binning method requires **linear interpolation** in step 4 of the algorithm. The core function `get_refy_quantiles_mean()` has been implemented in two equivalent ways, differing only in how this interpolation is performed. This is purely a speed optimization — it does not change the results.
+The Lorenz-curve binning method requires **linear interpolation** in step 4 of the algorithm. The core function `get_refy_quantiles_mean()` has been implemented in two equivalent ways, differing only in how this interpolation is performed. This is purely a computational optimization — it does not change the results.
 
 ### Original implementation: `approx()`
 
@@ -459,9 +459,8 @@ Both implementations produce **numerically identical results**:
 
 These are machine rounding errors and completely negligible.
 
-### Speed comparison
+### Efficiency comparison
 
-Benchmark on MWI 1997 data (20,000 interpolation points, 100 iterations):
-
-- `approx()`: ~50 ms per call
-- `findInterval()`: ~25 ms per call (approximately **2× faster**)
+Benchmarking in this pipeline indicates that the `findInterval()` implementation
+is computationally more efficient than `approx()` for the interpolation step,
+while preserving numerically identical results.
