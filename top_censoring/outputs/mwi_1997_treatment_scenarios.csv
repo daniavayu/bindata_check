@@ -1,0 +1,17 @@
+"scenario","indicator","value","percent_change_vs_original"
+"original","mean_ppp_day",5.77964796334671,0
+"original","gini",0.657555707569683,0
+"original","mld",0.811075880230553,0
+"original","atkinson_2",0.64671772420863,0
+"cap_two_at_lis_ceiling","mean_ppp_day",3.80188999229484,-34.2193500987325
+"cap_two_at_lis_ceiling","gini",0.47944024414797,-27.0875092971249
+"cap_two_at_lis_ceiling","mld",0.392551232382734,-51.6011705006997
+"cap_two_at_lis_ceiling","atkinson_2",0.462940011563485,-28.4169902518179
+"cap_all_lis_values","mean_ppp_day",3.58664509099034,-37.9435371542337
+"cap_all_lis_values","gini",0.448300839161496,-31.823139241174
+"cap_all_lis_values","mld",0.336591077066811,-58.5006674133703
+"cap_all_lis_values","atkinson_2",0.430746826086743,-33.3949248702229
+"delete_two_diagnostic_only","mean_ppp_day",3.79970057406154,-34.2572316141325
+"delete_two_diagnostic_only","gini",0.479181650100485,-27.1268358582829
+"delete_two_diagnostic_only","mld",0.392118983241163,-51.6544638055689
+"delete_two_diagnostic_only","atkinson_2",0.462655729483641,-28.4609479275088

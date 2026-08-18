@@ -1,0 +1,7 @@
+"approach","treatment","interpretation"
+"Unadjusted survey","No adjustment.","Benchmark."
+"Trim highest weighted 0.5%","Removes records above the weighted 99.5th percentile.","Strong diagnostic: affected records receive zero influence."
+"Winsorize highest weighted 0.5%","Caps records above the weighted 99.5th percentile at that percentile.","Classical top-coding with a fixed population share."
+"LIS top-code: log-IQR k = 3","Caps every value above exp(Q3(log y) + 3*IQR(log y)) at the LIS ceiling.","LIS rule: transparent distribution-based ceiling."
+"Pareto PDC: shrink model-flagged values","Fits the upper tail with robust PDC Pareto; caps only values above its fitted 99.5th-tail percentile.","Model-based cap for values incompatible with the fitted tail."
+"Pareto PDC: multiple imputation of top 0.5%","Fits the same Pareto; replaces the highest weighted 0.5% with plausible Pareto draws, averaged over 100 replicates.","Model-based alternative that preserves a variable, plausible upper tail."

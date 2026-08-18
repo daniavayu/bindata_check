@@ -1,0 +1,16 @@
+"approach","indicator","simulation_sd","imputations"
+"Pareto PDC: multiple imputation of top 0.5%","mean_ppp_day",0.039210167670604,100
+"Pareto PDC: multiple imputation of top 0.5%","median_ppp_day",0,100
+"Pareto PDC: multiple imputation of top 0.5%","headcount_2_41",0,100
+"Pareto PDC: multiple imputation of top 0.5%","fgt1_2_41",0,100
+"Pareto PDC: multiple imputation of top 0.5%","fgt2_2_41",0,100
+"Pareto PDC: multiple imputation of top 0.5%","watts_2_41",0,100
+"Pareto PDC: multiple imputation of top 0.5%","p90_p10",0,100
+"Pareto PDC: multiple imputation of top 0.5%","s80_s20",0.176018469723693,100
+"Pareto PDC: multiple imputation of top 0.5%","gini",0.00544831668218624,100
+"Pareto PDC: multiple imputation of top 0.5%","ge0_mld",0.0102252712070541,100
+"Pareto PDC: multiple imputation of top 0.5%","ge1_theil",0.0545659895731754,100
+"Pareto PDC: multiple imputation of top 0.5%","ge2",16.112663508658,100
+"Pareto PDC: multiple imputation of top 0.5%","atkinson_0_5",0.00735306947926843,100
+"Pareto PDC: multiple imputation of top 0.5%","atkinson_1",0.00695546465205715,100
+"Pareto PDC: multiple imputation of top 0.5%","atkinson_2",0.00562732949002162,100

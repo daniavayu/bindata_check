@@ -1,0 +1,91 @@
+"approach","indicator","value","percent_change_vs_unadjusted"
+"Unadjusted survey","mean_ppp_day",5.77964796334671,0
+"Unadjusted survey","median_ppp_day",2.3479405063462,0
+"Unadjusted survey","headcount_2_41",0.519789123506556,0
+"Unadjusted survey","fgt1_2_41",0.174076528664388,0
+"Unadjusted survey","fgt2_2_41",0.0782389076043561,0
+"Unadjusted survey","watts_2_41",0.240167866588987,0
+"Unadjusted survey","p90_p10",5.35178991779676,0
+"Unadjusted survey","s80_s20",18.2318261890422,0
+"Unadjusted survey","gini",0.657555707569683,0
+"Unadjusted survey","ge0_mld",0.811075880230553,0
+"Unadjusted survey","ge1_theil",3.19893395106319,0
+"Unadjusted survey","ge2",1469.23884847839,0
+"Unadjusted survey","atkinson_0_5",0.474728686189373,0
+"Unadjusted survey","atkinson_1",0.55562029040255,0
+"Unadjusted survey","atkinson_2",0.64671772420863,0
+"Trim highest weighted 0.5%","mean_ppp_day",3.36292842327508,-41.8143034904193
+"Trim highest weighted 0.5%","median_ppp_day",2.33886681401051,-0.386453247480689
+"Trim highest weighted 0.5%","headcount_2_41",0.522395234455185,0.501378507316153
+"Trim highest weighted 0.5%","fgt1_2_41",0.174949310965393,0.501378507316153
+"Trim highest weighted 0.5%","fgt2_2_41",0.0786311806714432,0.50137850731613
+"Trim highest weighted 0.5%","watts_2_41",0.241372016653544,0.501378507316153
+"Trim highest weighted 0.5%","p90_p10",5.19013547329105,-3.02056782849681
+"Trim highest weighted 0.5%","s80_s20",7.43490097660732,-59.2202070186701
+"Trim highest weighted 0.5%","gini",0.416069855964151,-36.7247746199421
+"Trim highest weighted 0.5%","ge0_mld",0.28689947766086,-64.6272950960756
+"Trim highest weighted 0.5%","ge1_theil",0.339293980746716,-89.3935296590307
+"Trim highest weighted 0.5%","ge2",0.577334881082291,-99.9607051718187
+"Trim highest weighted 0.5%","atkinson_0_5",0.144267597133627,-69.6105162104998
+"Trim highest weighted 0.5%","atkinson_1",0.249412824176407,-55.1109222458909
+"Trim highest weighted 0.5%","atkinson_2",0.395778681501821,-38.8019429982186
+"Winsorize highest weighted 0.5%","mean_ppp_day",3.56029907686488,-38.3993783108671
+"Winsorize highest weighted 0.5%","median_ppp_day",2.3479405063462,0
+"Winsorize highest weighted 0.5%","headcount_2_41",0.519789123506556,0
+"Winsorize highest weighted 0.5%","fgt1_2_41",0.174076528664388,0
+"Winsorize highest weighted 0.5%","fgt2_2_41",0.0782389076043561,0
+"Winsorize highest weighted 0.5%","watts_2_41",0.240167866588987,0
+"Winsorize highest weighted 0.5%","p90_p10",5.35178991779676,0
+"Winsorize highest weighted 0.5%","s80_s20",8.26894110109136,-54.6455686043059
+"Winsorize highest weighted 0.5%","gini",0.444252923227419,-32.4387396971473
+"Winsorize highest weighted 0.5%","ge0_mld",0.329795881099063,-59.3384676899384
+"Winsorize highest weighted 0.5%","ge1_theil",0.415032075813512,-87.0259254438319
+"Winsorize highest weighted 0.5%","ge2",0.819004561671746,-99.9442565405536
+"Winsorize highest weighted 0.5%","atkinson_0_5",0.168458818831563,-64.5147167777505
+"Winsorize highest weighted 0.5%","atkinson_1",0.280929505667921,-49.4385805341295
+"Winsorize highest weighted 0.5%","atkinson_2",0.426549224316097,-34.0439872993966
+"LIS top-code: log-IQR k = 3","mean_ppp_day",3.58664509099034,-37.9435371542337
+"LIS top-code: log-IQR k = 3","median_ppp_day",2.3479405063462,0
+"LIS top-code: log-IQR k = 3","headcount_2_41",0.519789123506556,0
+"LIS top-code: log-IQR k = 3","fgt1_2_41",0.174076528664388,0
+"LIS top-code: log-IQR k = 3","fgt2_2_41",0.0782389076043561,0
+"LIS top-code: log-IQR k = 3","watts_2_41",0.240167866588987,0
+"LIS top-code: log-IQR k = 3","p90_p10",5.35178991779676,0
+"LIS top-code: log-IQR k = 3","s80_s20",8.38721106434781,-53.9968680186918
+"LIS top-code: log-IQR k = 3","gini",0.448300839161496,-31.823139241174
+"LIS top-code: log-IQR k = 3","ge0_mld",0.336591077066811,-58.5006674133703
+"LIS top-code: log-IQR k = 3","ge1_theil",0.430695968438679,-86.5362656738963
+"LIS top-code: log-IQR k = 3","ge2",0.893248659572238,-99.9392033051333
+"LIS top-code: log-IQR k = 3","atkinson_0_5",0.17269496430562,-63.6223869908021
+"LIS top-code: log-IQR k = 3","atkinson_1",0.285799166703109,-48.5621436726067
+"LIS top-code: log-IQR k = 3","atkinson_2",0.430746826086743,-33.3949248702229
+"Pareto PDC: shrink model-flagged values","mean_ppp_day",3.76353351946964,-34.8829973151105
+"Pareto PDC: shrink model-flagged values","median_ppp_day",2.3479405063462,0
+"Pareto PDC: shrink model-flagged values","headcount_2_41",0.519789123506556,0
+"Pareto PDC: shrink model-flagged values","fgt1_2_41",0.174076528664388,0
+"Pareto PDC: shrink model-flagged values","fgt2_2_41",0.0782389076043561,0
+"Pareto PDC: shrink model-flagged values","watts_2_41",0.240167866588987,0
+"Pareto PDC: shrink model-flagged values","p90_p10",5.35178991779676,0
+"Pareto PDC: shrink model-flagged values","s80_s20",9.18128138698247,-49.6414605328969
+"Pareto PDC: shrink model-flagged values","gini",0.474132934368486,-27.8946363159291
+"Pareto PDC: shrink model-flagged values","ge0_mld",0.382481063341213,-52.8427521192604
+"Pareto PDC: shrink model-flagged values","ge1_theil",0.558109276549363,-82.5532729000588
+"Pareto PDC: shrink model-flagged values","ge2",1.93163305834964,-99.8685283158453
+"Pareto PDC: shrink model-flagged values","atkinson_0_5",0.202589098932882,-57.3252881432011
+"Pareto PDC: shrink model-flagged values","atkinson_1",0.317833191185764,-42.7966910719743
+"Pareto PDC: shrink model-flagged values","atkinson_2",0.457466145533956,-29.2633975520394
+"Pareto PDC: multiple imputation of top 0.5%","mean_ppp_day",3.71120494075522,-35.7883911911091
+"Pareto PDC: multiple imputation of top 0.5%","median_ppp_day",2.3479405063462,0
+"Pareto PDC: multiple imputation of top 0.5%","headcount_2_41",0.519789123506556,0
+"Pareto PDC: multiple imputation of top 0.5%","fgt1_2_41",0.174076528664388,0
+"Pareto PDC: multiple imputation of top 0.5%","fgt2_2_41",0.0782389076043561,0
+"Pareto PDC: multiple imputation of top 0.5%","watts_2_41",0.240167866588987,0
+"Pareto PDC: multiple imputation of top 0.5%","p90_p10",5.35178991779676,0
+"Pareto PDC: multiple imputation of top 0.5%","s80_s20",8.94637302276669,-50.9299127251242
+"Pareto PDC: multiple imputation of top 0.5%","gini",0.466709734495099,-29.0235444506973
+"Pareto PDC: multiple imputation of top 0.5%","ge0_mld",0.369130658954706,-54.4887638811576
+"Pareto PDC: multiple imputation of top 0.5%","ge1_theil",0.526918495821891,-83.5283096218112
+"Pareto PDC: multiple imputation of top 0.5%","ge2",3.58436871049383,-99.7560390732789
+"Pareto PDC: multiple imputation of top 0.5%","atkinson_0_5",0.194171958207549,-59.0983305082828
+"Pareto PDC: multiple imputation of top 0.5%","atkinson_1",0.308629533151796,-44.4531565022234
+"Pareto PDC: multiple imputation of top 0.5%","atkinson_2",0.449768315375274,-30.4536896795827
