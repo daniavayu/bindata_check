@@ -46,7 +46,7 @@ automatically invalid data.
 
 ## Outputs
 
-The script writes non-versioned CSVs to `02-output/top_censoring/`:
+The script writes non-versioned CSVs to `top_censoring/outputs/`:
 
 - `survey_inventory.csv`
 - `lis_top_diagnostics.csv`

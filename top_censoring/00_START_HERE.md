@@ -1,8 +1,7 @@
 # Top-censoring: start here
 
 This folder contains the separate analysis of whether very high welfare values
-should be treated before reporting inequality measures.  It does **not** modify
-the bottom-censoring or binned-data work elsewhere in the repository.
+should be treated before reporting inequality measures. 
 
 ## The one-sentence question
 
