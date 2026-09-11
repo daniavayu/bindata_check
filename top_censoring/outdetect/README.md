@@ -8,7 +8,7 @@ fence** (see `../scripts/15_gmd_all_surveys_lis_indicator_comparison.py` and
 survey-years as having a problematic concentration of welfare in a handful of
 extreme top observations.
 
-A separate request came from a colleague/supervisor referencing the Stata
+A separate request referencing the Stata
 `outdetect` program (Vecchi/Mancini), used e.g. as:
 
 ```stata
