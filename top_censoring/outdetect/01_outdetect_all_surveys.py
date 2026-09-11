@@ -5,21 +5,38 @@ robust z-score outlier identifier requested by the team:
 
     outdetect welfare, norm(ln) zscore(median, s) alpha(3) out(top)
 
-- norm(ln)        -> work in log(welfare) space.
-- zscore(median,s) -> center = weighted median of log(welfare);
-                      scale  = weighted MAD of log(welfare), scaled by 1.4826
-                      so it is comparable to a standard deviation under
-                      normality (this is the classical Hampel-identifier
-                      scale). NOTE: the exact letter "s" in the original
-                      Stata syntax could not be confirmed against the help
-                      file (no internet access in this environment); MAD is
-                      documented here as the working assumption. See README.md.
-- alpha(3)        -> flag values more than 3 robust "scales" above the median.
-- out(top)        -> only the upper tail is flagged (top-tail outliers).
+Methodology confirmed against Belotti, Mancini and Vecchi, "Outlier Detection
+for Welfare Analysis" (World Bank Policy Research Working Paper):
+
+- norm(ln)         -> work in log(welfare) space.
+- zscore(median,s) -> center = UNWEIGHTED median of log(welfare);
+                      scale  = UNWEIGHTED S-estimator (Rousseeuw & Croux,
+                      1993) of log(welfare): S = 1.1926 * med_i{ med_j |y_i -
+                      y_j| }. This is a *different* estimator from the MAD
+                      (Hampel, 1974) despite both being median-based; the
+                      paper's Table 2 lists them as separate options ("mad"
+                      vs. "s"), and the requested syntax `zscore(median, s)`
+                      maps to the S row, not the MAD row.
+                      The paper explicitly notes center/scale are computed
+                      UNWEIGHTED ("the weighted median does not... qualify as
+                      a robust statistic"), even though the final indicator
+                      comparison (Raw vs. Trimmed/capped) does use survey
+                      weights. Both conventions are followed here.
+- alpha(3)         -> flag values more than 3 robust "scales" above the median.
+- out(top)         -> only the upper tail is flagged (top-tail outliers).
 
 Run on the same universe as the existing LIS-ceiling screening
 (top_censoring/scripts/15_gmd_all_surveys_lis_indicator_comparison.py):
 every (country, year, survey) group with usable microdata in GMD_all_2017.dta.
+
+Computational note: the S-estimator is O(n^2) (median of per-observation
+medians of pairwise absolute differences). Survey sizes here range up to ~5
+million records, so an exact computation is infeasible for most surveys.
+When a group has more than S_ESTIMATOR_SUBSAMPLE_SIZE records, the S-estimator
+(only) is computed on a fixed-seed random subsample of that size; the median
+center and the resulting threshold/capping/indicators are still computed on
+the FULL survey. This is a standard practical compromise for robust scale
+estimators on large samples; see README.md for details.
 """
 
 from pathlib import Path
@@ -32,15 +49,18 @@ DATA_PATH = ROOT / "01-input" / "GMD_all_2017.dta"
 OUTPUT_PATH = Path(__file__).resolve().parent / "outputs" / "outdetect_all_surveys_summary.csv"
 
 ALPHA = 3
-MAD_SCALE_FACTOR = 1.4826  # makes MAD comparable to SD under normality
+S_SCALE_FACTOR = 1.1926  # Rousseeuw & Croux (1993) consistency constant for S
+S_ESTIMATOR_SUBSAMPLE_SIZE = 2000  # cap for the O(n^2) S-estimator computation
+RANDOM_SEED = 42
 
 
-def weighted_quantile(values, weights, probability):
-    order = np.argsort(values)
-    sorted_values = np.asarray(values)[order]
-    sorted_weights = np.asarray(weights)[order]
-    cumulative = np.cumsum(sorted_weights) / sorted_weights.sum()
-    return sorted_values[np.searchsorted(cumulative, probability, side="left")]
+def s_estimator(values, rng):
+    """Unweighted S-estimator of scale (Rousseeuw & Croux, 1993): S = 1.1926 * med_i{med_j|y_i - y_j|}."""
+    if len(values) > S_ESTIMATOR_SUBSAMPLE_SIZE:
+        values = rng.choice(values, size=S_ESTIMATOR_SUBSAMPLE_SIZE, replace=False)
+    diffs = np.abs(values[:, None] - values[None, :])
+    row_medians = np.median(diffs, axis=1)
+    return S_SCALE_FACTOR * np.median(row_medians)
 
 
 def weighted_mean(values, weights):
@@ -116,16 +136,16 @@ for chunk in reader:
 
 microdata = pd.concat(parts, ignore_index=True)
 results = []
+rng = np.random.default_rng(RANDOM_SEED)
 
 for (survey, country, year), data in microdata.groupby(["Survey", "Country", "Year"], sort=True):
     values = data["welfare"].to_numpy(dtype=float)
     weights = data["weight"].to_numpy(dtype=float)
     log_values = np.log(values)
 
-    median_log = weighted_quantile(log_values, weights, 0.5)
-    mad_log = weighted_quantile(np.abs(log_values - median_log), weights, 0.5)
-    scale_log = MAD_SCALE_FACTOR * mad_log
-    threshold = np.exp(median_log + ALPHA * scale_log) if scale_log > 0 else np.inf
+    median_log = np.median(log_values)  # unweighted, per Belotti/Mancini/Vecchi
+    s_log = s_estimator(log_values, rng)  # unweighted S-estimator (Rousseeuw & Croux, 1993)
+    threshold = np.exp(median_log + ALPHA * s_log) if s_log > 0 else np.inf
 
     top_outlier = values > threshold
     capped_values = np.minimum(values, threshold)
@@ -137,9 +157,9 @@ for (survey, country, year), data in microdata.groupby(["Survey", "Country", "Ye
         "Year": year,
         "Survey": survey,
         "Valid records": len(values),
-        "Median log welfare": median_log,
-        "MAD log welfare": mad_log,
-        "Robust scale (1.4826*MAD)": scale_log,
+        "Median log welfare (unweighted)": median_log,
+        "S estimate, log space (unweighted, 1.1926 scaled)": s_log,
+        "S-estimator subsampled (Y/N)": "Y" if len(values) > S_ESTIMATOR_SUBSAMPLE_SIZE else "N",
         "outdetect threshold (PPP/day)": threshold,
         "Records flagged (top)": int(np.sum(top_outlier)),
         "Population share flagged (%)": 100 * np.sum(weights[top_outlier]) / np.sum(weights),
