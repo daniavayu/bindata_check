@@ -1,18 +1,20 @@
 # Outputs: what to look at
 
 Outputs are generated files. They can be recreated by running the scripts in
-`../scripts/`; do not edit them manually.
+`../scripts/` and `../pareto/`; do not edit them manually.
+
+Pareto outputs are stored in the `pareto/` subfolder.
 
 ## Main Malawi 1997 outputs
 
 | File | Read this when you need |
 |---|---|
-| `mwi_1997_eusilc_approaches_table.csv` | One row per treatment and one column per indicator. This is the main comparison table. |
-| `mwi_1997_eusilc_approaches_comparison.csv` | The same results in long form, including percentage change from raw data. |
-| `mwi_1997_eusilc_method_notes.csv` | Plain-language description of every approach. |
-| `mwi_1997_eusilc_settings.csv` | Exact thresholds, Pareto parameter, and number of flagged records. |
-| `mwi_1997_eusilc_imputation_uncertainty.csv` | Simulation variation from Pareto multiple imputation. |
-| `mwi_1997_pareto_p90_ccdf.png` | The first Pareto diagnostic graph. |
+| `pareto/mwi_1997_eusilc_approaches_table.csv` | One row per treatment and one column per indicator. This is the main comparison table. |
+| `pareto/mwi_1997_eusilc_approaches_comparison.csv` | The same results in long form, including percentage change from raw data. |
+| `pareto/mwi_1997_eusilc_method_notes.csv` | Plain-language description of every approach. |
+| `pareto/mwi_1997_eusilc_settings.csv` | Exact thresholds, Pareto parameter, and number of flagged records. |
+| `pareto/mwi_1997_eusilc_imputation_uncertainty.csv` | Simulation variation from Pareto multiple imputation. |
+| `pareto/mwi_1997_pareto_p90_ccdf.png` | The first Pareto diagnostic graph. |
 
 ## Other groups of outputs
 

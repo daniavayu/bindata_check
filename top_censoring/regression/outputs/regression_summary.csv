@@ -1,0 +1,2 @@
+survey,records,predictors,folds,weighted_r2_crossfit_log_welfare,weighted_rmse_crossfit_log_welfare,weighted_residual_sd_crossfit_log_welfare,flag_threshold_standardized_abs_residual,flagged_records,flagged_weight_share
+MWI_1997,10698,urban + log1p(hsize) + subnatid,5,0.3886457530731783,0.5771309348298035,0.5771309313980393,3.0,118,0.010897611545998491

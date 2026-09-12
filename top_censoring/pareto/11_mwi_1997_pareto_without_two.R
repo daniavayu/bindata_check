@@ -6,7 +6,7 @@
 suppressPackageStartupMessages(library(haven))
 
 d <- read_dta(file.path("01-input", "country", "MWI_1997.dta"))
-output_dir <- file.path("top_censoring", "outputs")
+output_dir <- file.path("top_censoring", "outputs", "pareto")
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 valid <- is.finite(d$welfare) & d$welfare > 0 & is.finite(d$weight) & d$weight > 0

@@ -5,7 +5,7 @@
 suppressPackageStartupMessages(library(haven))
 
 input_dir <- file.path("01-input", "country")
-output_dir <- file.path("top_censoring", "outputs")
+output_dir <- file.path("top_censoring", "outputs", "pareto")
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 wq <- function(x, w, p) {

@@ -14,21 +14,21 @@ You do **not** need to run every script. Start with these three:
 
 1. `scripts/01_lis_top_diagnostics.R`
    - Applies the LIS log-IQR rule to screen all available surveys.
-2. `scripts/02_mwi_1997_pareto.R`
+2. `pareto/02_mwi_1997_pareto.R`
    - Makes the Pareto tail graph for Malawi 1997.
-3. `scripts/12_mwi_1997_eusilc_approaches.R`
+3. `pareto/12_mwi_1997_eusilc_approaches.R`
    - Produces the main comparison of no adjustment, trimming, winsorizing,
      LIS top-coding, and Pareto-based treatments.
 
 Run from the repository root:
 
 ```r
-source("top_censoring/scripts/12_mwi_1997_eusilc_approaches.R")
+source("top_censoring/pareto/12_mwi_1997_eusilc_approaches.R")
 ```
 
 The main table is:
 
-`outputs/mwi_1997_eusilc_approaches_table.csv`
+`outputs/pareto/mwi_1997_eusilc_approaches_table.csv`
 
 ## Current conclusion for Malawi 1997
 

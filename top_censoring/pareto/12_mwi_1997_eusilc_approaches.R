@@ -15,7 +15,7 @@ suppressPackageStartupMessages({
 })
 
 input_file <- file.path("01-input", "country", "MWI_1997.dta")
-output_dir <- file.path("top_censoring", "outputs")
+output_dir <- file.path("top_censoring", "outputs", "pareto")
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 # ---- Helpers ---------------------------------------------------------------
