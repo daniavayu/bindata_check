@@ -1,5 +1,5 @@
 """Compare the LIS Tukey-fence screening (existing method) against the
-new outdetect-style (median + MAD, log space, alpha=3, top-tail only)
+new outdetect-style (median + S-estimator, log space, alpha=3, top-tail only)
 screening, over the same ~1825 survey-year universe from GMD_all_2017.dta.
 
 Outputs:
@@ -13,10 +13,8 @@ Flagging rule (documented assumption, see README.md):
   - LIS-flagged  = survey is one of the 24 rows in
     24_surveys_four_indicators_lis_comparison.csv (the team's existing
     ground-truth "problematic" list).
-  - outdetect-flagged = survey is among the top 24 surveys (by the same
-    metric, "welfare share flagged/above ceiling (%)") under the outdetect
-    method, i.e. the same list *size* as the LIS list, so the two methods
-    are compared on equal footing rather than an arbitrarily different cutoff.
+    - outdetect-flagged = at least 5% of total welfare is held by observations
+        flagged by outdetect.
 """
 
 from pathlib import Path
@@ -37,19 +35,16 @@ WELFARE_TYPE = (
     / "interpolated_means.csv"
 )
 
-N_TOP = 24  # matches the size of the existing ground-truth LIS list
-
 lis_full = pd.read_csv(LIS_FULL)
 lis_top24 = pd.read_csv(LIS_TOP24)
 outdetect_full = pd.read_csv(OUTDETECT_FULL)
 
-lis_top24_keys = set(zip(lis_top24["Country"], lis_top24["Year"]))
-
-outdetect_top24 = (
-    outdetect_full.sort_values("Welfare share flagged (%)", ascending=False)
-    .head(N_TOP)
+lis_top24_keys = set(
+    zip(lis_top24["Country"], lis_top24["Year"], lis_top24["Survey"])
 )
-outdetect_top24_keys = set(zip(outdetect_top24["Country"], outdetect_top24["Year"]))
+outdetect_full["Flagged by outdetect"] = (
+    pd.to_numeric(outdetect_full["Welfare share flagged (%)"], errors="coerce") >= 5
+)
 
 merged = lis_full.merge(
     outdetect_full,
@@ -59,10 +54,7 @@ merged = lis_full.merge(
 )
 
 merged["Flagged by LIS"] = merged.apply(
-    lambda r: (r["Country"], r["Year"]) in lis_top24_keys, axis=1
-)
-merged["Flagged by outdetect"] = merged.apply(
-    lambda r: (r["Country"], r["Year"]) in outdetect_top24_keys, axis=1
+    lambda r: (r["Country"], r["Year"], r["Survey"]) in lis_top24_keys, axis=1
 )
 merged["Flagged by both (always problematic)"] = (
     merged["Flagged by LIS"] & merged["Flagged by outdetect"]

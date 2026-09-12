@@ -114,8 +114,10 @@ methods are directly comparable.
 |---|---|---|
 | [`01_outdetect_all_surveys.py`](01_outdetect_all_surveys.py) | Computes the outdetect (median+S-estimator, log, alpha=3, top-only) threshold and capped indicators for all 1,825 surveys. | `outputs/outdetect_all_surveys_summary.csv` |
 | [`02_compare_lis_vs_outdetect.py`](02_compare_lis_vs_outdetect.py) | Merges the outdetect results with the existing LIS results and flags surveys caught by each method. | `outputs/lis_vs_outdetect_comparison.csv`, `outputs/always_problematic_surveys.csv` |
+| [`03_executive_summary.py`](03_executive_summary.py) | Recomputes weighted indicators for the current intersection and creates the Malawi 1997 diagnostic table. | `outputs/executive_summary_always_problematic.csv`, `outputs/executive_summary_mwi_1997_flagship_top_values.csv` |
 
-Run order: `01_outdetect_all_surveys.py` then `02_compare_lis_vs_outdetect.py`
+Run order: `01_outdetect_all_surveys.py`, then `02_compare_lis_vs_outdetect.py`,
+then `03_executive_summary.py`
 (from the `bindata_check` directory, using the repo's Python environment).
 
 ## 5. How "problematic" is defined for the comparison
@@ -126,25 +128,12 @@ Run order: `01_outdetect_all_surveys.py` then `02_compare_lis_vs_outdetect.py`
   (min value among the 24 is PRY 2010 at 5.09%; the next survey down, UGA
   2019, is at 4.86% and is excluded) — a clean 5% cutoff, confirmed by
   re-deriving it directly from `all_surveys_four_indicators_lis_comparison.csv`.
-- **outdetect-flagged** = survey is in the **top 24** surveys (by "Welfare
-  share flagged (%)") under the outdetect method (26 survey-rows pass this
-  cut in practice, due to ties at the 24th-place value).
-  **A flat 5% cutoff does *not* carry over to outdetect**: the two methods
-  flag very different baseline shares of welfare per survey
-  (LIS mean/median across all 1,825 surveys = 0.85% / 0.38%; outdetect
-  mean/median = 3.57% / 2.80%, since the S-estimator identifier is inherently
-  more sensitive than the Tukey/IQR fence). Applying LIS's raw 5% threshold to
-  outdetect's "Welfare share flagged (%)" column flags **398 of 1,825
-  surveys** (~22%), which is not a usable "problematic" list.
-  Instead, the LIS 5% cutoff was translated to its **equivalent percentile
-  rank** (24/1825 flagged → the 98.685th percentile of the LIS distribution),
-  and that same percentile rank was applied to the outdetect distribution.
-  That yields an outdetect threshold of **`Welfare share flagged (%) > 13.77%`**,
-  close to taking the top 24 (26, with ties) by that column, which is what
-  `02_compare_lis_vs_outdetect.py` does directly (`N_TOP = 24`). So the "24"
-  is not a coincidence and not an arbitrary tie-in to the LIS list size
-  either — it is what falls out of applying an equally-strict (same-percentile)
-  cutoff to both methods.
+- **outdetect-flagged** = at least **5% of total welfare** is held by
+  observations flagged by outdetect. This is the same welfare-share criterion
+  used for the LIS screening and flags **398 of 1,825 surveys**.
+  The 5% threshold is an empirical comparability criterion adopted for this
+  exercise; it is not an official survey-level cutoff prescribed by the
+  outdetect documentation.
 - **Flagged by both ("always problematic")** = the survey shows up as an
   extreme top-tail case *regardless of which of the two outlier-screening
   methods is used* — the strongest possible evidence that these surveys need
@@ -152,11 +141,10 @@ Run order: `01_outdetect_all_surveys.py` then `02_compare_lis_vs_outdetect.py`
 
 ## 6. Results
 
-Of the 24 LIS-flagged surveys and the 26 outdetect-flagged surveys (ties at
-the 24th-place cutoff), drawn from the same 1,825-survey universe,
-**10 surveys are flagged by both methods** — these are the surveys where an
-extreme top tail shows up regardless of whether a Tukey-IQR fence or an
-S-estimator (Rousseeuw & Croux, 1993) identifier is used:
+Of the 24 LIS-flagged surveys and the 398 outdetect-flagged surveys, drawn
+from the same 1,825-survey universe, **24 surveys are flagged by both
+methods**. These are the surveys where an extreme top tail is identified by
+both the Tukey-IQR fence and the S-estimator (Rousseeuw & Croux, 1993):
 
 | Country | Year | Survey | Welfare type | LIS welfare share above ceiling (%) | outdetect welfare share flagged (%) |
 |---|---|---|---|---|---|
@@ -171,26 +159,15 @@ S-estimator (Rousseeuw & Croux, 1993) identifier is used:
 | RWA | 2005 | EICV-II | consumption | 6.14 | 16.27 |
 | RWA | 2013 | EICV-IV | consumption | 5.37 | 14.85 |
 
-14 surveys are flagged only by LIS (Tukey/IQR) and not by outdetect:
-MDG 1993, MDV 2002, MMR 2015, NOR 2005, NOR 2006, PRY 2002, PRY 2007,
-PRY 2010, PRY 2014, MOZ 2014, BFA 1998, MOZ 2002, CAF 2008, RWA 2000.
-16 different surveys are flagged only by outdetect (S-estimator) and not by
-LIS, notably a cluster of Russia HBS/VNDN survey-years (2007–2019) and Chile
-CASEN survey-years (1996, 2000, 2009) — see
+No surveys are flagged only by LIS under this criterion. The 374 surveys
+flagged only by outdetect are listed in
 `outputs/lis_vs_outdetect_comparison.csv` (columns `Flagged by LIS`,
 `Flagged by outdetect`) for the complete breakdown.
 
-**Takeaway:** Malawi 1997 and Belize 1993/1994/1997 remain, by a wide
-margin, the most robust findings — they top both rankings and are flagged by
-both methods with a very large gap over the rest of the list. Under the
-corrected (S-estimator, unweighted) methodology, Mozambique 2014, Burkina
-Faso 1998, Mozambique 2002, Central African Republic 2008 and Rwanda 2000
-drop out of the "always problematic" list (they remain LIS-flagged but no
-longer clear the tighter, less-sensitive S-estimator threshold), while Rwanda
-2013 (EICV-IV) newly joins it. The list is now smaller (10 vs. the earlier
-14) and slightly more concentrated in Sub-Saharan African consumption
-surveys, with Seychelles 2013 (income) as the one exception, reinforcing
-that this is not purely a consumption-vs-income artifact.
+**Takeaway:** all 24 LIS-flagged surveys also exceed the 5% welfare-share
+threshold under outdetect. The outdetect criterion is substantially more
+sensitive and identifies 374 additional surveys, so the two methods agree on
+the LIS cases but outdetect produces a much broader screening list.
 
 See `outputs/always_problematic_surveys.csv` for the full list with values,
 and `outputs/lis_vs_outdetect_comparison.csv` for the full 1,825-row
