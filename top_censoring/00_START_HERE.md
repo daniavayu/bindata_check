@@ -28,7 +28,7 @@ source("top_censoring/pareto/12_mwi_1997_eusilc_approaches.R")
 
 The main table is:
 
-`outputs/pareto/mwi_1997_eusilc_approaches_table.csv`
+`top_censoring/pareto/outputs/mwi_1997_eusilc_approaches_table.csv`
 
 ## Current conclusion for Malawi 1997
 

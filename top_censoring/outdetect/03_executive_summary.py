@@ -2,12 +2,23 @@
 
 Recomputes, directly from GMD_all_2017.dta, both the LIS (Tukey/IQR) ceiling
 and the outdetect (median + S-estimator) threshold for the 10 survey-years
-flagged as problematic by BOTH methods (see ../README.md, section 6), plus a
-record-level deep dive on the flagship case, Malawi 1997 (IHS-I).
+flagged as problematic by BOTH methods (see ../README.md, section 6). The
+record-level deep dive for the flagship case, Malawi 1997, is recalculated
+from country/MWI_1997.dta so it uses the same country source as the other
+Malawi-specific analyses.
 
 Outputs (clean, wide tables ready to paste into a slide or open in Excel):
     outputs/executive_summary_always_problematic.csv
   outputs/executive_summary_mwi_1997_flagship_top_values.csv
+  outputs/mwi_1997_treatment_comparison_5_scenarios.csv
+
+The global (GMD) screening in Table 1 still subsamples the S-estimator for large
+surveys (see 01_outdetect_all_surveys.py) because it is computed for ~1,825
+surveys, some with millions of records, making an exact O(n^2) computation
+infeasible. The Malawi 1997 flagship deep dive below uses an EXACT (unsampled)
+S-estimator instead: n=10,698 is small enough that the full computation takes
+~2 seconds, so no random subsampling or RNG is needed and the threshold is
+fully deterministic and reproducible.
 """
 
 from pathlib import Path
@@ -17,6 +28,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA_PATH = ROOT / "01-input" / "GMD_all_2017.dta"
+COUNTRY_FLAGSHIP_PATH = ROOT / "01-input" / "country" / "MWI_1997.dta"
 OUT_DIR = Path(__file__).resolve().parent / "outputs"
 ALWAYS_PROBLEMATIC_PATH = OUT_DIR / "always_problematic_surveys.csv"
 
@@ -37,6 +49,18 @@ def s_estimator(values, rng):
         values = rng.choice(values, size=S_ESTIMATOR_SUBSAMPLE_SIZE, replace=False)
     diffs = np.abs(values[:, None] - values[None, :])
     row_medians = np.median(diffs, axis=1)
+    return S_SCALE_FACTOR * np.median(row_medians)
+
+
+def s_estimator_exact(values, chunk_size=1000):
+    """Deterministic S-estimator: no subsampling, no RNG. Processes rows in
+    chunks so the full n x n pairwise-difference matrix is never materialized."""
+    n = len(values)
+    row_medians = np.empty(n)
+    for start in range(0, n, chunk_size):
+        end = min(start + chunk_size, n)
+        diffs = np.abs(values[start:end, None] - values[None, :])
+        row_medians[start:end] = np.median(diffs, axis=1)
     return S_SCALE_FACTOR * np.median(row_medians)
 
 
@@ -185,7 +209,32 @@ summary.to_csv(summary_path, index=False)
 print(f"Wrote {len(summary)} rows to {summary_path}")
 
 # --- Table 2: Malawi 1997 flagship deep dive (top 30 largest welfare values) -------------
-lis_ceiling, outdetect_threshold, lis_flag, outdetect_flag = flagship_thresholds
+# Keep the global screening summary above on GMD, but use the country microdata
+# for the Malawi deep dive so all Malawi-specific results share one source.
+country = pd.read_stata(COUNTRY_FLAGSHIP_PATH)
+country_valid = (
+    np.isfinite(country["welfare"])
+    & country["welfare"].gt(0)
+    & np.isfinite(country["weight"])
+    & country["weight"].gt(0)
+    & np.isfinite(country["cpi2021"])
+    & country["cpi2021"].gt(0)
+    & np.isfinite(country["icp2021"])
+    & country["icp2021"].gt(0)
+)
+flagship_values = (
+    country.loc[country_valid, "welfare"]
+    / (country.loc[country_valid, "cpi2021"] * country.loc[country_valid, "icp2021"] * 365)
+).to_numpy(dtype=float)
+flagship_weights = country.loc[country_valid, "weight"].to_numpy(dtype=float)
+flagship_log = np.log(flagship_values)
+flagship_q1 = weighted_quantile(flagship_log, flagship_weights, 0.25)
+flagship_q3 = weighted_quantile(flagship_log, flagship_weights, 0.75)
+lis_ceiling = np.exp(flagship_q3 + 3 * (flagship_q3 - flagship_q1))
+flagship_s = s_estimator_exact(flagship_log)
+outdetect_threshold = np.exp(np.median(flagship_log) + ALPHA * flagship_s)
+lis_flag = flagship_values > lis_ceiling
+outdetect_flag = flagship_values > outdetect_threshold
 order = np.argsort(flagship_values)[::-1][:30]
 flagship_table = pd.DataFrame(
     {
@@ -206,3 +255,36 @@ with open(flagship_path, "w", newline="") as f:
     flagship_table.to_csv(f, index=False)
 print(f"Wrote flagship top-30 table to {flagship_path}")
 print(summary[["Country", "Year", "Survey", "Population affected (%) - LIS", "Population affected (%) - outdetect"]].to_string(index=False))
+
+# --- Table 3: Malawi 1997 five-scenario treatment comparison ------------------------------
+# Backs the "Treatment comparison" slide: deletion vs. capping, at the LIS cap
+# and at the (now exact, deterministic) outdetect cap.
+two_highest = np.argsort(flagship_values)[::-1][:2]
+keep_not_two = np.ones(len(flagship_values), dtype=bool)
+keep_not_two[two_highest] = False
+
+scenarios = {
+    "Unadjusted": indicators(flagship_values, flagship_weights),
+    "Remove 2 highest": indicators(flagship_values[keep_not_two], flagship_weights[keep_not_two]),
+    "Remove above LIS cap": indicators(flagship_values[~lis_flag], flagship_weights[~lis_flag]),
+    "Remove above outdetect cap": indicators(flagship_values[~outdetect_flag], flagship_weights[~outdetect_flag]),
+    "Cap at LIS cap": indicators(np.minimum(flagship_values, lis_ceiling), flagship_weights),
+    "Cap at outdetect cap": indicators(np.minimum(flagship_values, outdetect_threshold), flagship_weights),
+}
+scenario_rows = []
+for name, values in scenarios.items():
+    row = {"Approach": name}
+    row.update(values)
+    scenario_rows.append(row)
+scenario_table = pd.DataFrame(scenario_rows)
+scenario_table.attrs["lis_ceiling"] = lis_ceiling
+scenario_table.attrs["outdetect_threshold"] = outdetect_threshold
+scenario_path = Path(__file__).resolve().parents[1] / "outputs" / "mwi_1997_treatment_comparison_5_scenarios.csv"
+scenario_path.parent.mkdir(parents=True, exist_ok=True)
+with open(scenario_path, "w", newline="") as f:
+    f.write(f"# LIS cap (PPP/day): {lis_ceiling:.4f}\n")
+    f.write(f"# outdetect cap (PPP/day, exact S-estimator, no subsampling): {outdetect_threshold:.4f}\n")
+    f.write(f"# Records above LIS cap: {int(lis_flag.sum())}; records above outdetect cap: {int(outdetect_flag.sum())}\n")
+    scenario_table.to_csv(f, index=False)
+print(f"Wrote 5-scenario treatment comparison to {scenario_path}")
+print(scenario_table.round(4).to_string(index=False))

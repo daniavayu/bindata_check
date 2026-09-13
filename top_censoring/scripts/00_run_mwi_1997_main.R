@@ -6,7 +6,7 @@ source(file.path("top_censoring", "pareto", "02_mwi_1997_pareto.R"))
 source(file.path("top_censoring", "pareto", "12_mwi_1997_eusilc_approaches.R"))
 
 # Convert the main long-form output to an Excel-friendly comparison table.
-output_dir <- file.path("top_censoring", "outputs", "pareto")
+output_dir <- file.path("top_censoring", "pareto", "outputs")
 comparison <- read.csv(
   file.path(output_dir, "mwi_1997_eusilc_approaches_comparison.csv"),
   stringsAsFactors = FALSE
@@ -25,4 +25,4 @@ write.csv(
 )
 
 message("Main Malawi 1997 analysis is complete.")
-message("Open: top_censoring/outputs/pareto/mwi_1997_eusilc_approaches_table.csv")
+message("Open: top_censoring/pareto/outputs/mwi_1997_eusilc_approaches_table.csv")

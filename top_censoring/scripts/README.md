@@ -2,7 +2,7 @@
 
 All scripts assume that R is started in the repository root (`bindata_check`).
 General screening outputs go to `top_censoring/outputs/`; Pareto outputs go to
-`top_censoring/outputs/pareto/`. Inputs are read from
+`top_censoring/pareto/outputs/`. Inputs are read from
 `01-input/country/` and are never changed.
 
 ## Main analysis: Malawi 1997

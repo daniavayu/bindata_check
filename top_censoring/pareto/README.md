@@ -10,7 +10,7 @@ This folder contains upper-tail analyses based on Pareto models.
 - `11_mwi_1997_pareto_without_two.R`: Malawi Pareto sensitivity excluding the two largest observations.
 - `12_mwi_1997_eusilc_approaches.R`: Malawi comparison of trimming, winsorizing, and robust Pareto treatments.
 
-Run from the `bindata_check` directory. Outputs are written to `../outputs/pareto/`.
+Run from the `bindata_check` directory. Outputs are written to `top_censoring/pareto/outputs/`.
 
 Pareto is one of three conceptually separate approaches in this project:
 

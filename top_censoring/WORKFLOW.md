@@ -29,5 +29,5 @@ Run the scripts from the repository root in this order:
    rule.
 
 Screening and general diagnostic files are written to `top_censoring/outputs/`;
-Pareto files are written to `top_censoring/outputs/pareto/`. No script modifies
+Pareto files are written to `top_censoring/pareto/outputs/`. No script modifies
 the survey microdata in `01-input/country/MWI_1997.dta`.
