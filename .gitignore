@@ -37,6 +37,9 @@ work/EDA/*
 *.rda
 *.sav
 
+# Generated outdetect intermediate data
+top_censoring/outdetect_r/outputs/_microdata_filtered.csv
+
 # Optional local caches and logs
 *.log
 *.tmp
