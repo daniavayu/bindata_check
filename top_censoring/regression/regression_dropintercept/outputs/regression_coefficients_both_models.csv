@@ -1,0 +1,64 @@
+model,term,coefficient_log_welfare
+with_intercept,intercept,1.826374343381484
+with_intercept,urban_Urban,0.6099802282513639
+with_intercept,subnatid_131 – Mzuzu City,0.01998702493125006
+with_intercept,subnatid_132 – Nkhata Bay,0.21015914854309575
+with_intercept,subnatid_133 – Rumphi,0.2237565898224219
+with_intercept,subnatid_134 – Karonga,0.29093866038959487
+with_intercept,subnatid_135 – Chitipa,-0.09227489120442235
+with_intercept,subnatid_220 – Ntcheu,-0.5057465822165297
+with_intercept,subnatid_221 – Dedza,-0.262855297311685
+with_intercept,subnatid_222 – Salima,-0.11719067575763355
+with_intercept,subnatid_223 – Lilongwe Rural,-0.22856331172978533
+with_intercept,subnatid_224 – Lilongwe City,0.5746319503056204
+with_intercept,subnatid_225 – Mchinji,-0.166044893007014
+with_intercept,subnatid_226 – Kasungu,0.09722106541684375
+with_intercept,subnatid_227 – Dowa,-0.025110659501589278
+with_intercept,subnatid_228 – Ntchisi,-0.26440583572948334
+with_intercept,subnatid_229 – Nkhotakota,-0.11256638158357996
+with_intercept,subnatid_301 – Nsanje,-0.28708807356602345
+with_intercept,subnatid_302 – Chikawa,-0.27777687159667974
+with_intercept,subnatid_303 – Mwanza,-0.42919593922722354
+with_intercept,subnatid_304 – Blantyre Rural,-0.42816956927868705
+with_intercept,subnatid_305 – Blantyre City,0.2772446398605755
+with_intercept,subnatid_306 – Zomba Rural,-0.43445596065658154
+with_intercept,subnatid_307 – Zomba City,-0.2618833868460829
+with_intercept,subnatid_308 – Thyolo,-0.6435825668998085
+with_intercept,subnatid_309 – Mulanje,-0.5273393570862995
+with_intercept,subnatid_310 – Phalombe,-0.5916575653012732
+with_intercept,subnatid_311 – Machinga,-0.3982528868396636
+with_intercept,subnatid_312 – Mangochi,-0.5012226361921682
+with_intercept,subnatid_313 – Chiradzulu,-0.5522561148210843
+with_intercept,log_hsize,-0.40254838819598404
+without_intercept,urban_Rural,1.5244491530462316
+without_intercept,urban_Urban,2.0710797029565575
+without_intercept,subnatid_130 – Mzimba,0.301925190335264
+without_intercept,subnatid_131 – Mzuzu City,0.38526189360754876
+without_intercept,subnatid_132 – Nkhata Bay,0.5120843388783541
+without_intercept,subnatid_133 – Rumphi,0.5256817801576843
+without_intercept,subnatid_134 – Karonga,0.5928638507248534
+without_intercept,subnatid_135 – Chitipa,0.2096502991308366
+without_intercept,subnatid_220 – Ntcheu,-0.20382139188126572
+without_intercept,subnatid_221 – Dedza,0.039069893023573034
+without_intercept,subnatid_222 – Salima,0.18473451457762724
+without_intercept,subnatid_223 – Lilongwe Rural,0.073361878605475
+without_intercept,subnatid_224 – Lilongwe City,0.9399068189819184
+without_intercept,subnatid_225 – Mchinji,0.1358802973282458
+without_intercept,subnatid_226 – Kasungu,0.39914625575210305
+without_intercept,subnatid_227 – Dowa,0.27681453083366914
+without_intercept,subnatid_228 – Ntchisi,0.03751935460577439
+without_intercept,subnatid_229 – Nkhotakota,0.18935880875167835
+without_intercept,subnatid_301 – Nsanje,0.01483711676922983
+without_intercept,subnatid_302 – Chikawa,0.02414831873857562
+without_intercept,subnatid_303 – Mwanza,-0.12727074889196185
+without_intercept,subnatid_304 – Blantyre Rural,-0.1262443789434284
+without_intercept,subnatid_305 – Blantyre City,0.6425195085368729
+without_intercept,subnatid_306 – Zomba Rural,-0.1325307703213227
+without_intercept,subnatid_307 – Zomba City,0.10339148183021614
+without_intercept,subnatid_308 – Thyolo,-0.34165737656454553
+without_intercept,subnatid_309 – Mulanje,-0.22541416675103715
+without_intercept,subnatid_310 – Phalombe,-0.28973237496601456
+without_intercept,subnatid_311 – Machinga,-0.09632769650440909
+without_intercept,subnatid_312 – Mangochi,-0.19929744585691095
+without_intercept,subnatid_313 – Chiradzulu,-0.25033092448582583
+without_intercept,log_hsize,-0.4025483881959757

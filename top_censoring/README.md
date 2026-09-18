@@ -1,8 +1,9 @@
 # Top-censoring diagnostics
 
 This directory evaluates whether a consistent top-coding rule is warranted for
-the available *observed survey microdata*. It is deliberately separate from the
-completed bottom-coding and bin-reconstruction work.
+the available *observed survey microdata*. This directory contains the
+top-censoring analysis, separate from the bottom-coding and bin-reconstruction
+analyses.
 
 **Start here:** [`00_START_HERE.md`](00_START_HERE.md) for the recommended
 route through the Malawi 1997 case study. This file documents the overall
@@ -35,7 +36,8 @@ The LIS classification is invariant to this within-survey rescaling.
 | `pareto/` | Pareto/Dagum/Fisk upper-tail and full-distribution fits | folder README |
 | `gb2/` | GB2 distribution fit, full sample vs. top observations removed | [`gb2/README.md`](gb2/README.md) |
 | `regression/` | Predicted-vs-observed welfare using household characteristics, cross-fitted residual flags | [`regression/README.md`](regression/README.md) |
-| `outdetect/` | Robust top-tail screening (median + S-estimator z-score, Belotti/Mancini/Vecchi `outdetect`), applied to all 1,825 GMD surveys and compared against the LIS method | [`outdetect/README.md`](outdetect/README.md) |
+| `outdetect/` | Robust top-tail screening (median + S-estimator z-score, Belotti/Mancini/Vecchi `outdetect`), applied to all 1,825 GMD surveys and compared against the LIS method. S-estimator subsampled for large surveys (Python, O(n^2)). | [`outdetect/README.md`](outdetect/README.md) |
+| `outdetect_r/` | Same outdetect method, but with an **exact** (non-subsampled) S-estimator via R's `robustbase::Sn()` (O(n log n), same algorithm Stata's `outdetect` uses internally) — no random seed, no approximation, for all 1,825 surveys. | [`outdetect_r/README.md`](outdetect_r/README.md) |
 
 ## Sequence
 

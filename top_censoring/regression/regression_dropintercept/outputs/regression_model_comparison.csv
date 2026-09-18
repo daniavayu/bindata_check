@@ -1,0 +1,3 @@
+model,records,predictors,weighted_r2_crossfit_log_welfare,weighted_rmse_crossfit_log_welfare,weighted_residual_sd_crossfit_log_welfare,flagged_high_records
+with_intercept,10698,intercept + urban + log1p(hsize) + subnatid (reference categories),0.3886457530731784,0.5771309348298034,0.5771309313980393,111
+without_intercept,10698,all urban + all subnatid categories + log1p(hsize),0.38864575307317817,0.5771309348298035,0.5771309313980393,111

@@ -24,7 +24,7 @@ does not establish that the report is erroneous.
 Run from the `bindata_check` directory:
 
 ```powershell
-C:\WBG\Python313\python.exe top_censoring\regression\01_regression_mwi_1997.py
+python top_censoring\regression\01_regression_mwi_1997.py
 ```
 
 Outputs are written to `top_censoring/regression/outputs/`, including the

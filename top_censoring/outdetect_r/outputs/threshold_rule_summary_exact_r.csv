@@ -1,0 +1,5 @@
+"method","rule","surveys_flagged"
+"LIS","Welfare share >= 5%",24
+"outdetect","Welfare share >= 5%",399
+"LIS","Population share >= 1%",0
+"outdetect","Population share >= 1%",151

@@ -2,13 +2,13 @@
 
 ## 1. Why this folder exists
 
-The team already has a top-tail screening method based on the **LIS Tukey
-fence** (see `../scripts/15_gmd_all_surveys_lis_indicator_comparison.py` and
+An existing top-tail screening method is based on the **LIS Tukey fence** (see
+`../scripts/15_gmd_all_surveys_lis_indicator_comparison.py` and
 `../outputs/24_surveys_four_indicators_lis_comparison.csv`), which flagged 24
 survey-years as having a problematic concentration of welfare in a handful of
 extreme top observations.
 
-A separate request referencing the Stata
+The analysis also implements the Stata
 `outdetect` program (Vecchi/Mancini), used e.g. as:
 
 ```stata
@@ -91,8 +91,8 @@ compromise (1,351 of 1,825).
 ### Grouping
 
 Exactly like the LIS method: **one screening per full survey (Country +
-Year + Survey)**, not per subgroup — confirmed with the requester as the
-right level of granularity to match the existing comparison.
+Year + Survey)**, not per subgroup. The survey-level grouping matches the
+granularity used in the existing comparison.
 
 ## 3. Universe covered
 
@@ -122,7 +122,7 @@ then `03_executive_summary.py`
 
 ## 5. How "problematic" is defined for the comparison
 
-- **LIS-flagged** = survey appears in the existing, team-confirmed
+- **LIS-flagged** = survey appears in the existing LIS screening results in
   `24_surveys_four_indicators_lis_comparison.csv`. Verified rule: exactly the
   surveys with `Welfare share above ceiling (%) > 5%` in the full universe
   (min value among the 24 is PRY 2010 at 5.09%; the next survey down, UGA
